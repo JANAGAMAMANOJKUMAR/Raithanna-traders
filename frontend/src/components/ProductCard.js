@@ -1,16 +1,15 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-export default function ProductCard({ product }) {
-  const { name, price, quantity, description } = product;
+export default function ProductCard({ p }){
   return (
     <div className="card h-100">
+      <img src={p.image || 'https://via.placeholder.com/400x300?text=Fertilizer'} className="card-img-top" alt={p.name}/>
       <div className="card-body d-flex flex-column">
-        <h5 className="card-title">{name}</h5>
-        <p className="card-text text-muted mb-1">Price: ₹{price}</p>
-        <p className="card-text text-muted">Stock: {quantity}</p>
-        <p className="card-text small text-secondary">{description}</p>
-        <div className="mt-auto">
-          <button className="btn btn-sm btn-outline-success me-2">Order</button>
+        <h6 className="card-title">{p.name}</h6>
+        <div className="mt-auto d-flex justify-content-between align-items-center">
+          <span className="fw-bold">₹{p.price}</span>
+          <Link to={`/product/${p._id}`} className="btn btn-sm btn-success">View</Link>
         </div>
       </div>
     </div>

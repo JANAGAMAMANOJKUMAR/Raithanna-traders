@@ -1,68 +1,29 @@
 import React, { useEffect, useState } from 'react';
+import api from '../api';
 import ProductCard from '../components/ProductCard';
-import axios from 'axios';
-
-const API = process.env.REACT_APP_API_URL;
+import { Link } from 'react-router-dom';
 
 export default function Products(){
-  const [products, setProducts] = useState([]);
-  const [form, setForm] = useState({ name: '', price: '', quantity: '', description: '' });
+  const [items, setItems] = useState([]);
+  const [q, setQ] = useState('');
 
-  useEffect(() => { fetchProducts(); }, []);
-
-  const fetchProducts = async () => {
-    try {
-      const res = await axios.get(`${API}/products`);
-      setProducts(res.data);
-    } catch (err) {
-      console.error(err);
-      alert('Failed to fetch products');
-    }
+  const load = async () => {
+    const { data } = await api.get('/products', { params: { q } });
+    setItems(data);
   };
-
-  const addProduct = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${API}/products`, { 
-        name: form.name, 
-        price: Number(form.price), 
-        quantity: Number(form.quantity),
-        description: form.description
-      });
-      setProducts(prev => [res.data, ...prev]);
-      setForm({ name: '', price: '', quantity: '', description: '' });
-    } catch (err) {
-      console.error(err);
-      alert('Failed to add product');
-    }
-  };
+  useEffect(()=>{ load(); /* eslint-disable-next-line */ },[]);
 
   return (
     <div className="container py-4">
-      <h2 className="mb-4">Products</h2>
-
-      <form onSubmit={addProduct} className="card p-3 mb-4">
-        <h5 className="mb-3">Add Product</h5>
-        <div className="row g-2">
-          <div className="col-md-3"><input className="form-control" placeholder="Name" value={form.name}
-            onChange={e => setForm({ ...form, name: e.target.value })} required/></div>
-          <div className="col-md-2"><input className="form-control" placeholder="Price" type="number" value={form.price}
-            onChange={e => setForm({ ...form, price: e.target.value })} required/></div>
-          <div className="col-md-2"><input className="form-control" placeholder="Quantity" type="number" value={form.quantity}
-            onChange={e => setForm({ ...form, quantity: e.target.value })} required/></div>
-          <div className="col-md-3"><input className="form-control" placeholder="Description" value={form.description}
-            onChange={e => setForm({ ...form, description: e.target.value })} /></div>
-          <div className="col-md-2"><button className="btn btn-success w-100" type="submit">Add</button></div>
-        </div>
-      </form>
-
+      <div className="d-flex mb-3">
+        <input className="form-control me-2" placeholder="Search fertilizers, seeds..." value={q}
+          onChange={e=>setQ(e.target.value)} />
+        <button className="btn btn-success" onClick={load}>Search</button>
+        <Link className="btn btn-outline-success ms-2" to="/cart">Cart</Link>
+      </div>
       <div className="row g-3">
-        {products.length === 0 ? (
-          <div className="col-12"><p className="text-muted">No products available.</p></div>
-        ) : products.map(p => (
-          <div key={p._id} className="col-md-4">
-            <ProductCard product={p} />
-          </div>
+        {items.map(p=>(
+          <div className="col-md-3" key={p._id}><ProductCard p={p} /></div>
         ))}
       </div>
     </div>

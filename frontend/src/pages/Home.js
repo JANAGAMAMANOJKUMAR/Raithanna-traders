@@ -1,43 +1,97 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Home(){
+function Home() {
   return (
-    <div>
-      <section className="header-hero">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-md-7">
-              <h1 className="display-5">Raithanna Traders Fertilizer Store</h1>
-              <p className="lead text-secondary">Fresh fertilizer & farm supplies — quality you can trust.</p>
-              <Link to="/products" className="btn btn-success">View Products</Link>
+    <div className="container mt-4">
+
+      {/* Hero Banner */}
+      <div
+        id="heroCarousel"
+        className="carousel slide mb-5"
+        data-bs-ride="carousel"
+      >
+        <div className="carousel-inner rounded shadow">
+          <div className="carousel-item active">
+            <img
+              src="/images/friend-shop.jpg"
+              className="d-block w-100"
+              alt="Fertilizers"
+              style={{ height: "900px", objectFit: "cover" }}
+            />
+            <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
+              <h3>Welcome to Raithanna Traders</h3>
+              <p>Your trusted fertilizer & agriculture partner</p>
             </div>
-            <div className="col-md-5 text-center">
-              <img src="https://via.placeholder.com/320x220?text=Fertilizer" alt="fertilizer" className="img-fluid rounded" />
+          </div>
+          <div className="carousel-item">
+            <img
+              src="https://img.freepik.com/free-photo/farmers-market.jpg"
+              className="d-block w-100"
+              alt="Products"
+              style={{ height: "400px", objectFit: "cover" }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Shop Categories */}
+      <h2 className="text-center mb-4">Shop by Categories</h2>
+      <div className="row">
+        <div className="col-md-4 mb-3">
+          <div className="card shadow h-100">
+            <img
+              src="/images/fertilizer.jpg"
+              className="card-img-top"
+              alt="Fertilizers"
+              style={{ height: "300px", objectFit: "cover" }}
+            />
+            <div className="card-body text-center">
+              <h5 className="card-title">Fertilizers</h5>
+              <Link to="/products" className="btn btn-success">
+                Shop Now
+              </Link>
             </div>
           </div>
         </div>
-      </section>
 
-      <div className="container py-5">
-        <h3>Quick Links</h3>
-        <div className="row mt-3">
-          <div className="col-md-4">
-            <div className="card p-3">
-              <h5>Products</h5>
-              <p className="small text-muted">Add and manage fertilizers & supplies</p>
-              <Link to="/products" className="btn btn-outline-success btn-sm">Manage Products</Link>
+        <div className="col-md-4 mb-3">
+          <div className="card shadow h-100">
+            <img
+              src="/images/seeds.jpg"
+              className="card-img-top"
+              alt="Seeds"
+              style={{ height: "300px", objectFit: "cover" }}
+            />
+            <div className="card-body text-center">
+              <h5 className="card-title">Seeds</h5>
+              <Link to="/products" className="btn btn-success">
+                Shop Now
+              </Link>
             </div>
           </div>
-          <div className="col-md-4">
-            <div className="card p-3">
-              <h5>Customers</h5>
-              <p className="small text-muted">Save customer contacts and history</p>
-              <Link to="/customers" className="btn btn-outline-success btn-sm">Manage Customers</Link>
+        </div>
+
+        <div className="col-md-4 mb-3">
+          <div className="card shadow h-100">
+            <img
+             src="/images/pesticides.jpg"
+              className="card-img-top"
+              alt="Tools"
+              style={{ height: "300px", objectFit: "cover" }}
+            />
+            <div className="card-body text-center">
+              <h5 className="card-title">Pesticides</h5>
+              <Link to="/products" className="btn btn-success">
+                Shop Now
+              </Link>
             </div>
           </div>
         </div>
       </div>
+
     </div>
   );
 }
+
+export default Home;
