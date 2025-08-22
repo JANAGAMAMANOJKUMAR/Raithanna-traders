@@ -20,6 +20,12 @@ const orderSchema = new mongoose.Schema(
       state: String
     },
     paymentMethod: { type: String, default: 'COD' },
+    paymentResult: {   // Optional for payment gateway info
+      id: String,
+      status: String,
+      update_time: String,
+      email_address: String,
+    },
     itemsPrice: Number,
     shippingPrice: Number,
     totalPrice: Number,

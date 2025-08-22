@@ -4,8 +4,8 @@ import { createOrder, myOrders, listOrders } from '../controllers/orderControlle
 
 const router = express.Router();
 
-router.post('/', protect, createOrder);
-router.get('/mine', protect, myOrders);
-router.get('/', protect, admin, listOrders);
+router.post('/', protect, createOrder);            // User places order
+router.get('/mine', protect, myOrders);            // User views own orders
+router.get('/', protect, admin, listOrders);       // Admin views all orders
 
 export default router;

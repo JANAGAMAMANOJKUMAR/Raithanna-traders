@@ -2,12 +2,17 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 
-export default function Cart(){
+export default function Cart() {
   const { cart, updateQty, removeFromCart } = useStore();
-  const nav = useNavigate();
-  const itemsPrice = cart.reduce((s,i)=> s + i.price * i.qty, 0);
+  const navigate = useNavigate();
+
+  const itemsPrice = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const shippingPrice = itemsPrice > 999 ? 0 : (cart.length ? 49 : 0);
   const total = itemsPrice + shippingPrice;
+
+  const proceedToCheckout = () => {
+    navigate('/shipping');
+  };
 
   return (
     <div className="container py-4">
@@ -23,9 +28,14 @@ export default function Cart(){
                   <div className="fw-bold">{item.name}</div>
                   <div>₹{item.price}</div>
                 </div>
-                <input className="form-control w-auto me-2" type="number" min="1" value={item.qty}
-                  onChange={e=>updateQty(item.product, Number(e.target.value))}/>
-                <button className="btn btn-outline-danger btn-sm" onClick={()=>removeFromCart(item.product)}>×</button>
+                <input
+                  className="form-control w-auto me-2"
+                  type="number"
+                  min="1"
+                  value={item.qty}
+                  onChange={e => updateQty(item.product, Number(e.target.value))}
+                />
+                <button className="btn btn-outline-danger btn-sm" onClick={() => removeFromCart(item.product)}>×</button>
               </div>
             ))}
           </div>
@@ -36,7 +46,9 @@ export default function Cart(){
               <div className="d-flex justify-content-between"><span>Shipping</span><span>₹{shippingPrice}</span></div>
               <hr/>
               <div className="d-flex justify-content-between fw-bold"><span>Total</span><span>₹{total}</span></div>
-              <button className="btn btn-success mt-3" onClick={()=>nav('/checkout')} disabled={!cart.length}>Proceed</button>
+              <button className="btn btn-success mt-3" onClick={proceedToCheckout} disabled={!cart.length}>
+                Proceed
+              </button>
             </div>
           </div>
         </div>

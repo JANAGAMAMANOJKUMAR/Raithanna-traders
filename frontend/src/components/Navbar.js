@@ -1,15 +1,15 @@
 import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';  // import useNavigate
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useStore } from '../context/StoreContext';
 
 export default function Navbar(){
   const { user, signout, cart } = useStore();
-  const navigate = useNavigate();  // initialize navigate
+  const navigate = useNavigate();
 
   // Wrap signout to also navigate after logout
   const handleLogout = () => {
     signout();
-    navigate('/login');  // Redirect to login page after logout
+    navigate('/login');
   };
 
   return (
@@ -22,13 +22,32 @@ export default function Navbar(){
         <div id="nav" className="collapse navbar-collapse">
           <ul className="navbar-nav me-auto">
             <li className="nav-item"><NavLink className="nav-link" to="/products">Products</NavLink></li>
-            {user?.isAdmin && <li className="nav-item"><NavLink className="nav-link" to="/admin/products">Admin</NavLink></li>}
-            {user && <li className="nav-item"><NavLink className="nav-link" to="/orders">My Orders</NavLink></li>}
+
+            {user?.isAdmin && (
+              <>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/admin/products">Admin Products</NavLink>
+                </li>
+                <li className="nav-item">
+                  <NavLink className="nav-link" to="/admin/orders">User Orders</NavLink>
+                </li>
+              </>
+            )}
+
+            {user && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/orders">My Orders</NavLink>
+              </li>
+            )}
           </ul>
+
           <ul className="navbar-nav ms-auto align-items-center">
             <li className="nav-item me-3">
-              <NavLink className="nav-link" to="/cart">Cart ({cart.reduce((s,i)=>s+i.qty,0)})</NavLink>
+              <NavLink className="nav-link" to="/cart">
+                Cart ({cart.reduce((s,i) => s + i.qty, 0)})
+              </NavLink>
             </li>
+
             {!user ? (
               <>
                 <li className="nav-item"><NavLink className="nav-link" to="/login">Login</NavLink></li>

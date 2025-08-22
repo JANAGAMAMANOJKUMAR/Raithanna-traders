@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState, useEffect } from 'react';
 
 const StoreContext = createContext(null);
 export const useStore = () => useContext(StoreContext);
@@ -8,23 +8,46 @@ export default function StoreProvider({ children }) {
     const raw = localStorage.getItem('rt_user');
     return raw ? JSON.parse(raw) : null;
   });
+
   const [cart, setCart] = useState(() => {
     const raw = localStorage.getItem('rt_cart');
     return raw ? JSON.parse(raw) : [];
   });
+
+  const [shippingAddress, setShippingAddress] = useState(() => {
+    const raw = localStorage.getItem('rt_shippingAddress');
+    return raw ? JSON.parse(raw) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem('rt_shippingAddress', JSON.stringify(shippingAddress));
+  }, [shippingAddress]);
+
+  const [paymentMethod, setPaymentMethod] = useState(() => {
+    return localStorage.getItem('rt_paymentMethod') || '';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('rt_paymentMethod', paymentMethod);
+  }, [paymentMethod]);
 
   const signin = (u, token) => {
     setUser(u);
     localStorage.setItem('rt_user', JSON.stringify(u));
     localStorage.setItem('rt_token', token);
   };
+
   const signout = () => {
     setUser(null);
     localStorage.removeItem('rt_user');
     localStorage.removeItem('rt_token');
+    setShippingAddress({});
+    setPaymentMethod('');
+    localStorage.removeItem('rt_shippingAddress');
+    localStorage.removeItem('rt_paymentMethod');
   };
 
-  const addToCart = (item) => {
+  const addToCart = item => {
     setCart(prev => {
       const found = prev.find(p => p.product === item.product);
       const next = found
@@ -34,6 +57,7 @@ export default function StoreProvider({ children }) {
       return next;
     });
   };
+
   const updateQty = (id, qty) => {
     setCart(prev => {
       const next = prev.map(p => p.product === id ? { ...p, qty } : p);
@@ -41,7 +65,8 @@ export default function StoreProvider({ children }) {
       return next;
     });
   };
-  const removeFromCart = (id) => {
+
+  const removeFromCart = id => {
     setCart(prev => {
       const next = prev.filter(p => p.product !== id);
       localStorage.setItem('rt_cart', JSON.stringify(next));
@@ -49,10 +74,19 @@ export default function StoreProvider({ children }) {
     });
   };
 
-  const value = useMemo(
-    () => ({ user, signin, signout, cart, addToCart, updateQty, removeFromCart }),
-    [user, cart]
-  );
+  const value = useMemo(() => ({
+    user,
+    signin,
+    signout,
+    cart,
+    addToCart,
+    updateQty,
+    removeFromCart,
+    shippingAddress,
+    setShippingAddress,
+    paymentMethod,
+    setPaymentMethod,
+  }), [user, cart, shippingAddress, paymentMethod]);
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
 }

@@ -10,6 +10,7 @@ function Home() {
         id="heroCarousel"
         className="carousel slide mb-5"
         data-bs-ride="carousel"
+        style={{ maxHeight: "400px", overflow: "hidden" }} // limit container height and crop overflow
       >
         <div className="carousel-inner rounded shadow">
           <div className="carousel-item active">
@@ -17,7 +18,7 @@ function Home() {
               src="/images/friend-shop.jpg"
               className="d-block w-100"
               alt="Fertilizers"
-              style={{ height: "900px", objectFit: "cover" }}
+              style={{ height: "400px", objectFit: "cover", width: "100%" }} // fixed height with cover style
             />
             <div className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded">
               <h3>Welcome to Raithanna Traders</h3>
@@ -29,7 +30,7 @@ function Home() {
               src="https://img.freepik.com/free-photo/farmers-market.jpg"
               className="d-block w-100"
               alt="Products"
-              style={{ height: "400px", objectFit: "cover" }}
+              style={{ height: "1000px", objectFit: "cover", width: "100%" }}
             />
           </div>
         </div>
@@ -38,6 +39,7 @@ function Home() {
       {/* Shop Categories */}
       <h2 className="text-center mb-4">Shop by Categories</h2>
       <div className="row">
+
         <div className="col-md-4 mb-3">
           <div className="card shadow h-100">
             <img
@@ -48,7 +50,7 @@ function Home() {
             />
             <div className="card-body text-center">
               <h5 className="card-title">Fertilizers</h5>
-              <Link to="/products" className="btn btn-success">
+              <Link to="/products?category=Fertilizers" className="btn btn-success">
                 Shop Now
               </Link>
             </div>
@@ -65,7 +67,7 @@ function Home() {
             />
             <div className="card-body text-center">
               <h5 className="card-title">Seeds</h5>
-              <Link to="/products" className="btn btn-success">
+              <Link to="/products?category=Seeds" className="btn btn-success">
                 Shop Now
               </Link>
             </div>
@@ -75,19 +77,20 @@ function Home() {
         <div className="col-md-4 mb-3">
           <div className="card shadow h-100">
             <img
-             src="/images/pesticides.jpg"
+              src="/images/pesticides.jpg"
               className="card-img-top"
-              alt="Tools"
+              alt="Pesticides"
               style={{ height: "300px", objectFit: "cover" }}
             />
             <div className="card-body text-center">
               <h5 className="card-title">Pesticides</h5>
-              <Link to="/products" className="btn btn-success">
+              <Link to="/products?category=Pesticides" className="btn btn-success">
                 Shop Now
               </Link>
             </div>
           </div>
         </div>
+
       </div>
 
     </div>
