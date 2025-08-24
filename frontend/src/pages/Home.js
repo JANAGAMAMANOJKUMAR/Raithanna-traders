@@ -25,7 +25,7 @@ function Home() {
     <div className="container mt-4">
       {/* Bootstrap Carousel */}
       <div id="heroCarousel" className="carousel slide mb-5 position-relative">
-        <div className="carousel-inner rounded shadow">
+        <div className="carousel-inner rounded shadow position-relative">
           {carouselImages.map((img, idx) => (
             <div
               key={img.src}
@@ -39,25 +39,24 @@ function Home() {
               />
             </div>
           ))}
+
+          {/* Caption at bottom of carousel */}
+          <div
+            className="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3"
+            style={{
+              bottom: "0",
+              top: "auto",
+              left: 0,
+              right: 0,
+              margin: "0 auto",
+            }}
+          >
+            <h3>Welcome to Raithanna Traders</h3>
+            <p>Your trusted fertilizer & agriculture partner</p>
+          </div>
         </div>
 
-        {/* Static Caption overlay on all slides */}
-        <div
-          className="position-absolute start-50 top-50 translate-middle text-center text-white"
-          style={{
-            zIndex: 10,
-            backgroundColor: "rgba(0,0,0,0.5)",
-            padding: "15px 30px",
-            borderRadius: "10px",
-            maxWidth: "90%",
-            pointerEvents: "none", // Allows clicks through
-          }}
-        >
-          <h3>Welcome to Raithanna Traders</h3>
-          <p>Your trusted fertilizer & agriculture partner</p>
-        </div>
-
-        {/* Controls */}
+        {/* Carousel controls */}
         <button
           className="carousel-control-prev"
           type="button"
@@ -113,10 +112,7 @@ function Home() {
             />
             <div className="card-body text-center">
               <h5 className="card-title">Fertilizers</h5>
-              <Link
-                to="/products?category=Fertilizers"
-                className="btn btn-success"
-              >
+              <Link to="/products?category=Fertilizers" className="btn btn-success">
                 Shop Now
               </Link>
             </div>
@@ -134,10 +130,7 @@ function Home() {
             />
             <div className="card-body text-center">
               <h5 className="card-title">Seeds</h5>
-              <Link
-                to="/products?category=Seeds"
-                className="btn btn-success"
-              >
+              <Link to="/products?category=Seeds" className="btn btn-success">
                 Shop Now
               </Link>
             </div>
@@ -155,10 +148,7 @@ function Home() {
             />
             <div className="card-body text-center">
               <h5 className="card-title">Pesticides</h5>
-              <Link
-                to="/products?category=Pesticides"
-                className="btn btn-success"
-              >
+              <Link to="/products?category=Pesticides" className="btn btn-success">
                 Shop Now
               </Link>
             </div>

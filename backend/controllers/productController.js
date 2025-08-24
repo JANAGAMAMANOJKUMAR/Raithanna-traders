@@ -2,13 +2,25 @@ import Product from '../models/Product.js';
 
 export const listProducts = async (req, res) => {
   const { q = '', category = '' } = req.query;
-  const filter = {
-    ...(q ? { name: { $regex: q, $options: 'i' } } : {}),
-    ...(category ? { category } : {})
-  };
+
+  let filter = {};
+
+  if (q) {
+    filter.$or = [
+      { name: { $regex: q, $options: 'i' } },
+      { category: { $regex: q, $options: 'i' } },
+      { description: { $regex: q, $options: 'i' } }
+    ];
+  }
+
+  if (category) {
+    filter.category = category;
+  }
+
   const products = await Product.find(filter).sort({ createdAt: -1 });
   res.json(products);
 };
+
 
 export const getProduct = async (req, res) => {
   const p = await Product.findById(req.params.id);
